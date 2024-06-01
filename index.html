@@ -6,11 +6,12 @@
     <title>TSAT - Texas STEM Advocacy Team</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
             color: #333;
+            overflow-x: hidden;
         }
         header {
             background-color: #4CAF50;
@@ -20,26 +21,42 @@
         }
         header h1 {
             margin: 0;
+            font-size: 2.5rem;
         }
         nav {
             text-align: center;
             background-color: #333;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
         }
         nav a {
             color: white;
             padding: 14px 20px;
             display: inline-block;
             text-decoration: none;
+            font-size: 1.2rem;
         }
         nav a:hover {
             background-color: #ddd;
             color: black;
         }
         section {
-            padding: 2rem;
+            display: none;
+            padding: 4rem 2rem;
+            margin-top: 3rem;
+        }
+        section.active {
+            display: block;
         }
         h2 {
             color: #4CAF50;
+            font-size: 2rem;
+        }
+        p, ul {
+            font-size: 1.2rem;
+            line-height: 1.6;
         }
         .numbers div {
             margin: 1rem 0;
@@ -60,12 +77,12 @@
         <h1>TSAT - Texas STEM Advocacy Team</h1>
     </header>
     <nav>
-        <a href="#about">About Us</a>
-        <a href="#members">Members</a>
-        <a href="#numbers">The Numbers</a>
-        <a href="#contact">Contact Us</a>
+        <a href="#about" onclick="showSection('about')">About Us</a>
+        <a href="#members" onclick="showSection('members')">Members</a>
+        <a href="#numbers" onclick="showSection('numbers')">The Numbers</a>
+        <a href="#contact" onclick="showSection('contact')">Contact Us</a>
     </nav>
-    <section id="about">
+    <section id="about" class="active">
         <h2>About Us</h2>
         <p>TSAT is dedicated to increasing access to STEM education across Texas because it is the industry of the future that can best address issues of inequality and intergenerational poverty.</p>
     </section>
@@ -100,5 +117,14 @@
     <footer>
         <p>&copy; 2024 TSAT - Texas STEM Advocacy Team</p>
     </footer>
+    <script>
+        function showSection(id) {
+            var sections = document.querySelectorAll('section');
+            sections.forEach(function(section) {
+                section.classList.remove('active');
+            });
+            document.getElementById(id).classList.add('active');
+        }
+    </script>
 </body>
 </html>
