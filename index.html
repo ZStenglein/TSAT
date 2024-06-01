@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TSAT - Texas STEM Advocacy Team</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Merriweather', serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
@@ -18,6 +20,9 @@
             color: white;
             padding: 1rem 0;
             text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         header h1 {
             margin: 0;
@@ -26,10 +31,9 @@
         nav {
             text-align: center;
             background-color: #333;
-            position: fixed;
-            width: 100%;
+            position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 999;
         }
         nav a {
             color: white;
@@ -46,9 +50,16 @@
             display: none;
             padding: 4rem 2rem;
             margin-top: 3rem;
+            opacity: 0;
+            transition: opacity 1s ease, transform 1s ease;
         }
         section.active {
             display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        section.slide-in-right {
+            transform: translateX(100%);
         }
         h2 {
             color: #4CAF50;
@@ -60,6 +71,14 @@
         }
         .numbers div {
             margin: 1rem 0;
+        }
+        .image-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
         }
         footer {
             background-color: #333;
@@ -82,12 +101,18 @@
         <a href="#numbers" onclick="showSection('numbers')">The Numbers</a>
         <a href="#contact" onclick="showSection('contact')">Contact Us</a>
     </nav>
-    <section id="about" class="active">
+    <section id="about" class="active slide-in-right">
         <h2>About Us</h2>
+        <div class="image-container">
+            <img src="images/about-us.jpg" alt="About Us">
+        </div>
         <p>TSAT is dedicated to increasing access to STEM education across Texas because it is the industry of the future that can best address issues of inequality and intergenerational poverty.</p>
     </section>
-    <section id="members">
+    <section id="members" class="slide-in-right">
         <h2>Members</h2>
+        <div class="image-container">
+            <img src="images/members.jpg" alt="Members">
+        </div>
         <ul>
             <li>Zachary Stenglein</li>
             <li>Jack Chubick</li>
@@ -95,8 +120,11 @@
             <li>Andrew Zhang</li>
         </ul>
     </section>
-    <section id="numbers">
+    <section id="numbers" class="slide-in-right">
         <h2>The Numbers</h2>
+        <div class="image-container">
+            <img src="images/numbers.jpg" alt="The Numbers">
+        </div>
         <div>
             <h3>The Problem</h3>
             <p>There is a shortage of resources and computer science teachers in Texas.</p>
@@ -110,7 +138,7 @@
             <p>Invest funding in computer science infrastructure or teacher training programs, and support current bills to do so.</p>
         </div>
     </section>
-    <section id="contact">
+    <section id="contact" class="slide-in-right">
         <h2>Contact Us</h2>
         <p>Contact us at 512-915-5168 or <a href="mailto:zstenglein@gmail.com">zstenglein@gmail.com</a></p>
     </section>
@@ -125,6 +153,26 @@
             });
             document.getElementById(id).classList.add('active');
         }
+
+        // Adding animation classes
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('slide-in-right');
+        });
+
+        // Remove animation class after section becomes active
+        const observer = new MutationObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.target.classList.contains('active')) {
+                    setTimeout(() => {
+                        entry.target.classList.remove('slide-in-right');
+                    }, 1000);
+                }
+            });
+        });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section, { attributes: true });
+        });
     </script>
 </body>
 </html>
