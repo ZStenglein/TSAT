@@ -11,8 +11,8 @@
             font-family: 'Merriweather', serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #333;
+            color: white;
             overflow-x: hidden;
         }
         header {
@@ -20,9 +20,6 @@
             color: white;
             padding: 1rem 0;
             text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
         header h1 {
             margin: 0;
@@ -31,9 +28,7 @@
         nav {
             text-align: center;
             background-color: #333;
-            position: sticky;
-            top: 0;
-            z-index: 999;
+            padding: 0.5rem 0;
         }
         nav a {
             color: white;
@@ -49,7 +44,7 @@
         section {
             display: none;
             padding: 4rem 2rem;
-            margin-top: 3rem;
+            margin-top: 2rem;
             opacity: 0;
             transition: opacity 1s ease, transform 1s ease;
         }
@@ -58,8 +53,11 @@
             opacity: 1;
             transform: translateX(0);
         }
-        section.slide-in-right {
+        .content {
             transform: translateX(100%);
+        }
+        .content.active {
+            transform: translateX(0);
         }
         h2 {
             color: #4CAF50;
@@ -71,14 +69,6 @@
         }
         .numbers div {
             margin: 1rem 0;
-        }
-        .image-container {
-            text-align: center;
-            margin: 2rem 0;
-        }
-        .image-container img {
-            max-width: 100%;
-            height: auto;
         }
         footer {
             background-color: #333;
@@ -101,46 +91,45 @@
         <a href="#numbers" onclick="showSection('numbers')">The Numbers</a>
         <a href="#contact" onclick="showSection('contact')">Contact Us</a>
     </nav>
-    <section id="about" class="active slide-in-right">
-        <h2>About Us</h2>
-        <div class="image-container">
-            <img src="images/about-us.jpg" alt="About Us">
-        </div>
-        <p>TSAT is dedicated to increasing access to STEM education across Texas because it is the industry of the future that can best address issues of inequality and intergenerational poverty.</p>
-    </section>
-    <section id="members" class="slide-in-right">
-        <h2>Members</h2>
-        <div class="image-container">
-            <img src="images/members.jpg" alt="Members">
-        </div>
-        <ul>
-            <li>Zachary Stenglein</li>
-            <li>Jack Chubick</li>
-            <li>Aryan Bandi</li>
-            <li>Andrew Zhang</li>
-        </ul>
-    </section>
-    <section id="numbers" class="slide-in-right">
-        <h2>The Numbers</h2>
-        <div class="image-container">
-            <img src="images/numbers.jpg" alt="The Numbers">
-        </div>
-        <div>
-            <h3>The Problem</h3>
-            <p>There is a shortage of resources and computer science teachers in Texas.</p>
-        </div>
-        <div>
-            <h3>Significance</h3>
-            <p>There are open jobs in computer science and it is the industry that is growing most rapidly in the United States today. This industry can provide upward mobility for everyone.</p>
-        </div>
-        <div>
-            <h3>Solutions</h3>
-            <p>Invest funding in computer science infrastructure or teacher training programs, and support current bills to do so.</p>
+    <section id="about" class="active">
+        <div class="content active">
+            <h2>About Us</h2>
+            <p>TSAT is dedicated to increasing access to STEM education across Texas because it is the industry of the future that can best address issues of inequality and intergenerational poverty.</p>
         </div>
     </section>
-    <section id="contact" class="slide-in-right">
-        <h2>Contact Us</h2>
-        <p>Contact us at 512-915-5168 or <a href="mailto:zstenglein@gmail.com">zstenglein@gmail.com</a></p>
+    <section id="members">
+        <div class="content">
+            <h2>Members</h2>
+            <ul>
+                <li>Zachary Stenglein</li>
+                <li>Jack Chubick</li>
+                <li>Aryan Bandi</li>
+                <li>Andrew Zhang</li>
+            </ul>
+        </div>
+    </section>
+    <section id="numbers">
+        <div class="content">
+            <h2>The Numbers</h2>
+            <div>
+                <h3>The Problem</h3>
+                <p>There is a shortage of resources and computer science teachers in Texas.</p>
+            </div>
+            <div>
+                <h3>Significance</h3>
+                <p>There are open jobs in computer science and it is the industry that is growing most rapidly in the United States today. This industry can provide upward mobility for everyone.</p>
+            </div>
+            <div>
+                <h3>Solutions</h3>
+                <p>Invest funding in computer science infrastructure or teacher training programs, and support current bills to do so.</p>
+            </div>
+        </div>
+    </section>
+    <section id="contact">
+        <div class="content">
+            <h2>Contact Us</h2>
+            <p>Contact us at 512-915-5168 or <a href="mailto:zstenglein@gmail.com" style="color: #4CAF50;">zstenglein@gmail.com</a></p>
+        </div>
     </section>
     <footer>
         <p>&copy; 2024 TSAT - Texas STEM Advocacy Team</p>
@@ -150,28 +139,18 @@
             var sections = document.querySelectorAll('section');
             sections.forEach(function(section) {
                 section.classList.remove('active');
+                section.querySelector('.content').classList.remove('active');
             });
-            document.getElementById(id).classList.add('active');
+            var activeSection = document.getElementById(id);
+            activeSection.classList.add('active');
+            setTimeout(function() {
+                activeSection.querySelector('.content').classList.add('active');
+            }, 10); // Timeout to allow for CSS transition
         }
 
-        // Adding animation classes
-        document.querySelectorAll('section').forEach(section => {
-            section.classList.add('slide-in-right');
-        });
-
-        // Remove animation class after section becomes active
-        const observer = new MutationObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.target.classList.contains('active')) {
-                    setTimeout(() => {
-                        entry.target.classList.remove('slide-in-right');
-                    }, 1000);
-                }
-            });
-        });
-
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section, { attributes: true });
+        // Initialize the first section to be active
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('about');
         });
     </script>
 </body>
